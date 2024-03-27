@@ -1,5 +1,0 @@
-flask
-transformers
-Pillow
-PyMuPDF
-pytorch
