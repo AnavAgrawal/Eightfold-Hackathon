@@ -83,8 +83,8 @@ def pdf_to_text(pdf_file):
 def highlight_pdf(relevant_texts, pdf_file, modified_pdf_file):
     total = len(relevant_texts)/3
     doc = fitz.open(pdf_file)
-    colors= [(1, 0.647, 0),(1, 1, 0),(1, 1, 0)]
-    fills = [(1, 0.9, 0.7),(1, 1, 0.8),(1, 1, 0.9)]
+    colors= [(208/255, 72/255, 72/255),(243/255,185/255, 95/255),(253/255, 231/255, 103/255)]
+    # fills = [(1, 0.9, 0.7),(1, 1, 0.8),(1, 1, 0.9)]
     for page_num in range(len(doc)):
         page = doc[page_num]
         page.clean_contents()
@@ -98,7 +98,7 @@ def highlight_pdf(relevant_texts, pdf_file, modified_pdf_file):
             for inst in text_instances:
                 try:
                     highlight = page.add_highlight_annot(inst)
-                    highlight.set_colors(stroke=colors[int(index//total)], fill=fills[int(index//total)])
+                    highlight.set_colors(stroke=colors[int(index//total)])
                     highlight.update()
                     # page.draw_rect(inst, color=(1, 1, 0), fill=(1, 1, 0.9))
                     # page.draw_rect(inst, color=colors[int(index//total)], fill=fills[int(index//total)], width=1.5,overlay=False,stroke_opacity=0)
