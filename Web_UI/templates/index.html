@@ -31,6 +31,17 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                <div class="mt-4">
+                    <div class="mb-3">
+                        <label for="question" class="form-label">Question:</label>
+                        <input type="text" class="form-control" name="question" id="question" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="ask-question">Ask Question</button>
+                </div>
+                <div class="mb-3">
+                    <label for="answer" class="form-label">Answer:</label>
+                    <div id="answer" class="form-control"></div>
+                </div>
             </div>
             <div class="col-md-8">
                 <h2 class="mb-4">Highlighted PDF</h2>
@@ -42,21 +53,20 @@
     <script>
         const pdfForm = document.getElementById('pdf-form');
         const pdfViewer = document.getElementById('pdf-viewer');
+        const askQuestionBtn = document.getElementById('ask-question');
 
         pdfForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-
-            // Clear existing iframes
+            // Clear existing iframes and answer
             pdfViewer.innerHTML = '';
+            document.getElementById('answer').innerHTML = '';
 
             const formData = new FormData(pdfForm);
             const response = await fetch('/process_pdf', {
                 method: 'POST',
                 body: formData
             });
-
             const data = await response.json();
-
             if (response.ok) {
                 const { modified_pdf_files } = data;
                 modified_pdf_files.forEach(pdfFilePath => {
@@ -68,6 +78,25 @@
                 });
             } else {
                 console.error('Error processing PDF:', data.error);
+            }
+        });
+
+        askQuestionBtn.addEventListener('click', async () => {
+            const question = document.getElementById('question').value;
+            if (question) {
+                const response = await fetch('/process_question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('answer').innerHTML = data.answer;
+                } else {
+                    console.error('Error processing question:', data.error);
+                }
             }
         });
     </script>
