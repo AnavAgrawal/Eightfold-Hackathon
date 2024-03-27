@@ -32,8 +32,8 @@
 #        top_k=3))
 # # {'score': 0.9191, 'start': 34, 'end': 40, 'answer': 'Berlin'}
 
-full = 9
-# for full in range(1,10):
-total = (full)/3
-for index in range(full):
-       print(int(index//total))
+# full = 9
+# # for full in range(1,10):
+# total = (full)/3
+# for index in range(full):
+#        print(int(index//total))

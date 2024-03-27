@@ -84,10 +84,10 @@ def highlight_pdf(relevant_texts, pdf_file, modified_pdf_file):
             for inst in text_instances:
                 # print('the quad is\n\n\n ', inst)
                 try:
-                    highlight = page.add_highlight_annot(inst)
-                    highlight.update()
+                    # highlight = page.add_highlight_annot(inst)
+                    # highlight.update()
                     # print('drawing')
-                    # page.draw_rect(inst, color=(1, 1, 0), fill=(1, 1, 0.9), width=1.5, overlay=False)
+                    page.draw_rect(inst, color=(1, 1, 0), fill=(1, 1, 0.9), width=1.5, overlay=False)
                     # page.draw_rect(inst, color=colors[int(index//total)], fill=fills[int(index//total)], width=1.5, overlay=False)
                 except ValueError as e:
                     print(f"Error occurred while highlighting: for {text} {e}")
