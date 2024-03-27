@@ -48,6 +48,7 @@ def process_pdf():
                         if phrase not in relevant_texts:
                             relevant_texts.append(phrase)
 
+
             print('Passing the relevant texts to highlight: ', relevant_texts)
             modified_pdf_file = f'Model{index}_{file_name_counter}.pdf'
             highlight_pdf(relevant_texts, temp_file_path, modified_pdf_file)
@@ -88,6 +89,8 @@ def highlight_pdf(relevant_texts, pdf_file, modified_pdf_file):
         page = doc[page_num]
         page.clean_contents()
         for index,text in enumerate(relevant_texts):
+            if text.isspace():
+                continue
             if len(text) < 3:
                 print('skipping')
                 continue
@@ -95,7 +98,10 @@ def highlight_pdf(relevant_texts, pdf_file, modified_pdf_file):
             for inst in text_instances:
                 try:
                     highlight = page.add_highlight_annot(inst)
+                    highlight.set_colors(stroke=colors[int(index//total)], fill=fills[int(index//total)])
                     highlight.update()
+                    # page.draw_rect(inst, color=(1, 1, 0), fill=(1, 1, 0.9))
+                    # page.draw_rect(inst, color=colors[int(index//total)], fill=fills[int(index//total)], width=1.5,overlay=False,stroke_opacity=0)
                 except ValueError as e:
                     print(f"Error occurred while highlighting: for {text} {e}")
                     continue
